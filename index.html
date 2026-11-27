@@ -667,7 +667,7 @@ b .term{font-weight:inherit}
       <button type="button" class="ui-item is-pending" id="tab-p04" aria-disabled="true"><span class="ui-item-top"><span class="ui-item-name">04 BO's check</span><span class="ui-chip is-plan">Plan</span></span><span class="ui-item-role">Each case the AMs send in</span></button>
       <div class="ui-group">Deliver it</div>
       <button type="button" class="ui-item is-pending" id="tab-p05" aria-disabled="true"><span class="ui-item-top"><span class="ui-item-name">05 The gifts</span><span class="ui-chip is-muted">Facts</span></span><span class="ui-item-role">5 gifts, stock and logos</span></button>
-      <button type="button" class="ui-item is-pending" id="tab-p06" aria-disabled="true"><span class="ui-item-top"><span class="ui-item-name">06 Delivery</span><span class="ui-chip is-muted">Facts</span></span><span class="ui-item-role">The AM sends the address, OP ships</span></button>
+      <button type="button" class="ui-item is-pending" id="tab-p06" aria-disabled="true"><span class="ui-item-top"><span class="ui-item-name">06 Delivery</span><span class="ui-chip is-muted">Facts</span></span><span class="ui-item-role">The address goes in the case, OP ships</span></button>
       <div class="ui-group">Keep it right</div>
       <button type="button" class="ui-item is-pending" id="tab-p07" aria-disabled="true"><span class="ui-item-top"><span class="ui-item-name">07 Rules and limits</span><span class="ui-chip is-plan">Plan</span></span><span class="ui-item-role">One set per client, not guaranteed</span></button>
       <button type="button" class="ui-item is-pending" id="tab-p08" aria-disabled="true"><span class="ui-item-top"><span class="ui-item-name">08 Who does what</span><span class="ui-chip is-plan">Plan</span></span><span class="ui-item-role">Owners and contacts for every step</span></button>
@@ -935,13 +935,19 @@ var NODES=[
  {k:'lk2',st:'manual',shape:'leak',x:C[1],y:YL,w:212,h:72,name:'No gift this time',sub:'No case sent to BO',rel:'Branch of step 3.2',stage:3,num:'3.2',
   what:'If the client doesn\'t meet the rules, or the AM isn\'t supporting their IB, the AM doesn\'t send a case, so there\'s no gift this time.',
   owner:'The client\'s AM',where:'Before the case goes to BO',time:'When the client asks'},
- {k:'n33',id:'3.3',st:'manual',shape:'box',x:C[2],y:Y2,w:172,h:112,name:'Submits a case',sub:'AM, to BO',title:'The AM submits a case to BO',
-  what:'The AM submits a case to BO for the client, the same way as for other promotions.',
+ {k:'n33',id:'3.3',st:'manual',shape:'box',x:C[2],y:Y2,w:172,h:112,name:'Submits a case',sub:'AM, to BO, with picks and address',title:'The AM submits a case to BO',
+  what:'The AM submits a case to BO with the client\'s gift picks and postal info, the same way as for other promotions.',
   owner:'The client\'s AM',
   where:'A case to BO',
   time:'Once the AM\'s check is done',
   pop:{
-   what:'The AM submits a case to BO for the client, the same way as for other promotions. BO uses it to check the client against the campaign rules.',
+   what:'The AM submits a case to BO, the same way as for other promotions. The case includes the client\'s gift picks and postal info, so BO can pass it straight to Lucas\'s team.',
+   waysH:'What goes in the case',
+   ways:[
+    {h:'Their gift picks',t:'1, 2 or 3 of the 5 gifts, by their tier.'},
+    {h:'Their postal info',t:'The address OP ships the gifts to.'}
+   ],
+   note:{lead:'Good to know',t:'Addresses are personal data. We use them only to send the gift, and share them only with OP.'},
    owner:'The client\'s AM.',
    where:'A case to BO.',
    time:'Once the AM\'s check is done.'
@@ -968,44 +974,38 @@ var NODES=[
  {k:'h41',st:'manual',shape:'help',x:C[3],y:YL,w:176,h:76,name:'No gift',sub:'Didn\'t meet the rules',rel:'Branch of step 4.1',stage:4,num:'4.1',
   what:'Clients whose first deposit was under USD 200, or whose net deposit fell below their tier amount within the 30 days, don\'t get a gift, not even a lower tier\'s.',
   owner:'BO',where:'The case from the AM',time:'Not known yet'},
- {k:'n42',id:'4.2',st:'manual',shape:'box',x:C[4],y:Y2,w:172,h:112,name:'Sends the address',sub:'AM, to Lucas\'s team',title:'The AM sends us the picks and address',
-  what:'Once BO approves the case, the AM sends Lucas\'s team the client\'s gift picks and address.',
-  owner:'The client\'s AM',
-  where:'Not set yet',
-  time:'Once BO approves the case',
+ {k:'n42',id:'4.2',st:'manual',shape:'box',x:C[4],y:Y2,w:172,h:112,name:'Passes it to us',sub:'BO, to Lucas\'s team',title:'BO passes the case to us',
+  what:'Once the case passes, BO passes it to Lucas\'s team, with the client\'s gift picks and postal info.',
+  owner:'BO',
+  where:'From BO to Lucas\'s team',
+  time:'Not known yet',
   pop:{
-   what:'Once BO approves the case, the AM sends Lucas\'s team the client\'s gift picks and address.',
-   waysH:'What the AM sends',
-   ways:[
-    {h:'Their gift picks',t:'1, 2 or 3 of the 5 gifts, by their tier.'},
-    {h:'Their address',t:'Where OP ships the gifts.'}
-   ],
-   note:{lead:'Good to know',t:'Addresses are personal data. We use them only to send the gift, and share them only with OP.'},
-   owner:'The client\'s AM.',
-   where:'Not set yet.',
-   time:'Once BO approves the case.'
+   what:'Once the case passes, BO passes it to Lucas\'s team, with the client\'s gift picks and postal info. It\'s the same handover as for other promotions.',
+   owner:'BO.',
+   where:'From BO to Lucas\'s team.',
+   time:'Not known yet.'
   }},
  {k:'n51',id:'5.1',st:'manual',shape:'box',x:C[5],y:Y2,w:172,h:112,name:'Sends it to OP',sub:'Lucas\'s team',title:'We send the picks and address to OP',
   what:'Lucas\'s team sends the client\'s gift picks and address to OP to ship.',
   owner:'Lucas\'s team',
   where:'A request to OP',
-  time:'Once the AM sends the address',
+  time:'Once BO passes it on',
   pop:{
    what:'Lucas\'s team sends the client\'s gift picks and address to OP to ship.',
    owner:'Lucas\'s team.',
    where:'A request to OP.',
-   time:'Once the AM sends the address.'
+   time:'Once BO passes it on.'
   }},
  {k:'n52',id:'5.2',st:'manual',shape:'term',x:C[6],y:Y2,w:180,h:100,name:'Ships the gift',sub:'OP, to the client\'s address',title:'OP ships the gifts to the client',
-  what:'OP ships the gifts straight to each client, once Lucas\'s team passes on the picks and address from the AM.',
+  what:'OP ships the gifts straight to each client, once Lucas\'s team passes on the picks and address from the case.',
   owner:'OP',
   where:'Straight to the client\'s address',
   time:'About 2 weeks to Korea. Other markets not known yet',
   pop:{
-   what:'OP ships the gifts straight to each client, once Lucas\'s team passes on the picks and address from the AM.',
+   what:'OP ships the gifts straight to each client, once Lucas\'s team passes on the picks and address from the case.',
    flFirst:1,
    fl:{h:'How a gift gets to the client',
-    a:['The AM sends the address','Lucas\'s team sends it to OP','Shipped to the client'],
+    a:['BO passes us the case','Lucas\'s team sends it to OP','Shipped to the client'],
     n:'Korea goes by EMS, straight from OP\'s warehouse in China.'},
    owner:'OP.',
    where:'Straight to the client\'s address.',
@@ -1216,7 +1216,7 @@ var GLOSS={
  'IB link':{t:'The IB\'s own TMGM sign-up link. Clients who open an account through it sit under the IB, which is how their first deposits count for the campaign.'},
  'net deposit':{t:'Deposits minus withdrawals. Over a client\'s first 30 days, it must stay at or above their tier amount for the client to qualify.'},
  '30-day rule':{t:'The client keeps their first deposit in for 30 days: their net deposit over the 30 days stays at or above the tier amount. If it drops below, the client gets no gift, not a lower tier\'s. It stops people depositing, getting a gift and taking the money straight out.'},
- 'case':{pl:1,name:'Case',t:'A request the AM sends to BO, the same way as for other promotions. BO checks it against the campaign rules.'},
+ 'case':{pl:1,name:'Case',t:'A request the AM sends to BO, the same way as for other promotions. For the merch campaign, it includes the client\'s gift picks and postal info, and BO passes it to Lucas\'s team once it\'s checked.'},
  'BO':{t:'Business Operations. BO checks the cases the AMs send in for TMGM\'s promotions, and pulls client and deposit data.'},
  'OP':{t:'Marketing Operations. OP buys, stores and ships TMGM\'s merch, and restocks when a campaign needs more.',
   p:'Once Nick approves the budget, the request goes to marketingop@tmgm.com with a title starting "Merchandise_" and a screenshot of his approval.'},
